@@ -26,48 +26,65 @@ st.markdown(
     """
     <style>
     body {
-        background-color: #F8F9FA; /* Light gray background */
+        background-color: #FAFAFA; /* Light background color */
         color: #333;
         font-family: 'Arial', sans-serif;
     }
     .title {
         text-align: center;
         margin-top: 30px;
+        font-size: 2.5rem;
+        color: #333;
     }
     .message {
-        padding: 10px 15px;
-        border-radius: 20px;
-        margin: 5px 0;
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin: 8px 0;
         max-width: 80%;
+        position: relative;
+        display: inline-block;
     }
     .user {
         background-color: #007BFF; /* User message color */
         color: white;
-        align-self: flex-end;
         margin-left: auto; /* Align user messages to the right */
     }
     .bot {
         background-color: #E0E0E0; /* Bot message color */
         color: black;
-        align-self: flex-start;
         margin-right: auto; /* Align bot messages to the left */
     }
     .send-button {
-        background-color: #007BFF;
+        background-color: #28A745;
         color: white;
         border: none;
-        border-radius: 20px;
+        border-radius: 5px;
         padding: 10px 20px;
         cursor: pointer;
         font-weight: bold;
+        font-size: 1rem;
         transition: background-color 0.3s;
+        margin-top: 20px;
     }
     .send-button:hover {
-        background-color: #0056b3; /* Darker blue on hover */
+        background-color: #218838; /* Darker green on hover */
+    }
+    .input-container {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .input-box {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #CED4DA;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-size: 1rem;
     }
     footer {
         text-align: center;
-        margin-top: 50px;
+        margin-top: 30px;
         color: gray;
     }
     </style>
@@ -86,22 +103,23 @@ if "chat_history" not in st.session_state:
 # Main content
 st.markdown("<h1 class='title'>AI Chatbot</h1>", unsafe_allow_html=True)
 
-# Input box for user question
-user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
-
-if st.button("Send", key="send", help="Click to send your message", css_class="send-button"):
-    if user_input:
-        with st.spinner("Thinking..."):
-            bot_response = get_openai_response(user_input)
-            log_interaction(user_input, bot_response)
-
-# Display chat history in a chat-like format
+# Chat history display
 if st.session_state.chat_history:
     chat_container = st.container()
     for chat in st.session_state.chat_history:
         with chat_container:
             st.markdown(f"<div class='message user'>{chat['user']}</div>", unsafe_allow_html=True)
             st.markdown(f"<div class='message bot'>{chat['bot']}</div>", unsafe_allow_html=True)
+
+# Input box for user question
+with st.form(key='input_form', clear_on_submit=True):
+    user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...", className="input-box")
+    submit_button = st.form_submit_button("Send", help="Click to send your message")
+
+if submit_button and user_input:
+    with st.spinner("Thinking..."):
+        bot_response = get_openai_response(user_input)
+        log_interaction(user_input, bot_response)
 
 # Add footer with app information
 st.markdown(
