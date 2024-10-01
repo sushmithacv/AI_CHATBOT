@@ -4,63 +4,7 @@ import openai
 # Set OpenAI API key from secrets
 openai.api_key = st.secrets["openai"]["api_key"]
 
-# Title of the app
-st.title("Sushmitha's Chatbot")
-
-# Set a pearl white background
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-color: #EAEAEA; /* Pearl white background */
-        color: #333;
-        font-family: 'Helvetica Neue', sans-serif;
-    }
-    .message {
-        padding: 10px 15px;
-        border-radius: 20px;
-        margin: 5px 0;
-    }
-    .user {
-        background-color: #0084ff; /* User message color */
-        color: white;
-        align-self: flex-end;
-    }
-    .bot {
-        background-color: #e0e0e0; /* Bot message color */
-        color: black;
-        align-self: flex-start;
-    }
-    .send-button {
-        background-color: #0084ff;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-    .send-button:hover {
-        background-color: #0056b3; /* Darker blue on hover */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Sidebar for navigation and settings
-st.sidebar.header("Settings")
-st.sidebar.text("This app allows you to chat with an AI.")
-
-# Initialize session state for chat history
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
-# Function to log interactions
-def log_interaction(user_input, bot_response):
-    st.session_state.chat_history.append({"user": user_input, "bot": bot_response})
-
-# Function to get a response from the OpenAI API
+# Define function to get response from OpenAI
 def get_openai_response(user_input):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -70,8 +14,80 @@ def get_openai_response(user_input):
     )
     return response['choices'][0]['message']['content']
 
+# Function to log interactions
+def log_interaction(user_input, bot_response):
+    st.session_state.chat_history.append({"user": user_input, "bot": bot_response})
+
+# App configuration
+st.set_page_config(page_title="AI Chatbot", page_icon="🤖", layout="wide")
+
+# Custom CSS for styling
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #F8F9FA; /* Light gray background */
+        color: #333;
+        font-family: 'Arial', sans-serif;
+    }
+    .title {
+        text-align: center;
+        margin-top: 30px;
+    }
+    .message {
+        padding: 10px 15px;
+        border-radius: 20px;
+        margin: 5px 0;
+        max-width: 80%;
+    }
+    .user {
+        background-color: #007BFF; /* User message color */
+        color: white;
+        align-self: flex-end;
+        margin-left: auto; /* Align user messages to the right */
+    }
+    .bot {
+        background-color: #E0E0E0; /* Bot message color */
+        color: black;
+        align-self: flex-start;
+        margin-right: auto; /* Align bot messages to the left */
+    }
+    .send-button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    .send-button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    footer {
+        text-align: center;
+        margin-top: 50px;
+        color: gray;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Sidebar for navigation
+st.sidebar.header("AI Chatbot")
+st.sidebar.text("Ask me anything!")
+
+# Initialize session state for chat history
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+# Main content
+st.markdown("<h1 class='title'>AI Chatbot</h1>", unsafe_allow_html=True)
+
 # Input box for user question
-user_input = st.text_input("You:", "", key="input")
+user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
 
 if st.button("Send", key="send", help="Click to send your message", css_class="send-button"):
     if user_input:
@@ -90,9 +106,9 @@ if st.session_state.chat_history:
 # Add footer with app information
 st.markdown(
     """
-    <footer style="text-align: center; margin-top: 50px;">
-        <p style="color: gray;">Developed by [Your Name]</p>
-        <p style="color: gray;">&copy; 2024 AI Chatbot</p>
+    <footer>
+        <p>Developed by [Your Name]</p>
+        <p>&copy; 2024 AI Chatbot</p>
     </footer>
     """,
     unsafe_allow_html=True
