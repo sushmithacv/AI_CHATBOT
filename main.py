@@ -14,7 +14,7 @@ def get_openai_response(user_input):
                 {"role": "user", "content": user_input}
             ]
         )
-        return response.choices[0].message['content']
+        return response['choices'][0]['message']['content']
     except Exception as e:
         return f"Error: {str(e)}"
 
