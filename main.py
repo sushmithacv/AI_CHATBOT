@@ -5,6 +5,8 @@ import speech_recognition as sr
 from gtts import gTTS
 import os
 
+st.write(st.secrets)
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
