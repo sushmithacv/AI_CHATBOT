@@ -5,7 +5,7 @@ import speech_recognition as sr
 from gtts import gTTS
 import os
 
-st.write(st.Secrets)
+st.write(st.secrets)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -18,7 +18,7 @@ if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 
 # Set OpenAI API key from secrets
-openai.api_key = st.Secrets["openai"]["api_key"]
+openai.api_key = st.secrets["openai"]["api_key"]
 
 # Function to log interactions
 def log_interaction(user_input, bot_response):
