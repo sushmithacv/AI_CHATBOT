@@ -15,8 +15,8 @@ st.title("Chatbot Application")
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 
-# Set OpenAI API key
-openai.api_key = st.secrets["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"]
+# Set OpenAI API key from secrets
+openai.api_key = st.secrets["openai"]["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"]
 
 # Function to log interactions
 def log_interaction(user_input, bot_response):
