@@ -2,15 +2,21 @@ import streamlit as st
 import openai
 from datetime import datetime
 
+# Set your OpenAI API key here
+openai.api_key = 'YOUR_API_KEY_HERE'
+
 # Function to get response from OpenAI
 def get_openai_response(user_input):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": user_input}
-        ]
-    )
-    return response.choices[0].message['content']
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": user_input}
+            ]
+        )
+        return response.choices[0].message['content']
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # Set up Streamlit app layout
 st.set_page_config(page_title="AI Chatbot", page_icon="🤖", layout="centered")
@@ -93,7 +99,7 @@ st.markdown('<div class="header">AI Chatbot</div>', unsafe_allow_html=True)
 # Input area
 with st.form(key='input_form', clear_on_submit=True):
     user_input = st.text_input("You:", key="input", placeholder="Type your message here...", max_chars=300)
-    submit_button = st.form_submit_button("Send", help="Click to send your message", css_class="send-button")
+    submit_button = st.form_submit_button("Send", help="Click to send your message")
 
 # Placeholder for chat history
 if 'chat_history' not in st.session_state:
@@ -116,6 +122,6 @@ if st.session_state.chat_history:
 
 # Footer
 st.markdown(
-    "<footer class='footer'>AI Chatbot &copy; 2024 | Developed by Sushmitha </footer>",
+    "<footer class='footer'>AI Chatbot &copy; 2024 | Developed by [Your Name]</footer>",
     unsafe_allow_html=True
 )
