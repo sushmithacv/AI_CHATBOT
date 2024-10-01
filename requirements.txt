@@ -1,6 +1,6 @@
 streamlit
-openai
 SpeechRecognition
 gtts
 PyPDF2  # If you want to add PDF processing
 python-docx  # If you want to add DOCX processing
+openai>=1.0.0
