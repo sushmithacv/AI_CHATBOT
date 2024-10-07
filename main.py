@@ -3,7 +3,7 @@ import openai
 from datetime import datetime
 
 # Set your OpenAI API key here
-openai.api_key = 'YOUR_API_KEY_HERE'
+openai.api_key = 'sk-f-GwXbsIm17HF2uNNwk4jiszX-DcDp7sQjjkvFvNYfT3BlbkFJN79rAG96R9yixs8yonEODr4wSmGjUpcjZpuc1FKXYA'
 
 # Function to get response from OpenAI
 def get_openai_response(user_input):
