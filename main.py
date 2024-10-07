@@ -122,6 +122,6 @@ if st.session_state.chat_history:
 
 # Footer
 st.markdown(
-    "<footer class='footer'>AI Chatbot &copy; 2024 | Developed by [Your Name]</footer>",
+    "<footer class='footer'>AI Chatbot &copy; 2024 | Developed by Sushmitha</footer>",
     unsafe_allow_html=True
 )
